@@ -12,7 +12,7 @@
 * * "C:\Program Files (x86)\Common Files\Oracle\Java\javapath"  
   
 The System-PATH is logged to the file "_thePathBackup.txt" before.  
-(The last 10 values with a timstamp).
+(The last 10 values with a timestamp).
   
 #### [-> Latest changes/ bug fixes](latest_changes.md)
    

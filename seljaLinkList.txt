@@ -1,0 +1,6 @@
+[Oracle JDK8],https://www.oracle.com/de/java/technologies/javase/javase-jdk8-downloads.html
+[Oracle JDK15],https://www.oracle.com/de/java/technologies/javase/javase-jdk8-downloads.html
+[Open JDK15],https://jdk.java.net/15/
+[GraalVM],https://www.graalvm.org/
+[Zulu jdk downloads],https://www.azul.com/downloads/zulu-community/?package=jdk
+[Jabba Webpage],https://github.com/shyiko/jabba

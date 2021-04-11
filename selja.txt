@@ -1,0 +1,4 @@
+[graalvm-ce-java11-21.0.0.2],C:\Program Files\Java\graalvm-ce-java11-21.0.0.2,...\bin,...\lib\svm\bin
+[graalvm-ce-java8-21.0.0.2],C:\Program Files\Java\graalvm-ce-java8-21.0.0.2,...\bin,...\jre\lib\svm\bin
+[jdk8 271 Oracle],C:\Program Files\Java\jdk1.8.0_271,...\bin
+

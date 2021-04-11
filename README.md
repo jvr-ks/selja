@@ -7,12 +7,12 @@
 **Please do not use it, if you cannot handle System-PATH environment variable problems!**   
   
 * **Removes System-PATH entries:**  
-* * All entries containing the characters "\java.*?\bin"  
+* * All entries containing the characters "\.*?java.*?\bin" or "\.*?java.*?\lib\svm\bin"
   
 * * "C:\Program Files (x86)\Common Files\Oracle\Java\javapath"  
   
 The System-PATH is logged to the file "_thePathBackup.txt" before.  
-(The last 10 values).
+(The last 10 values with a timstamp).
   
 #### [-> Latest changes/ bug fixes](latest_changes.md)
    

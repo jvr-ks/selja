@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.078"
+appVersion := "0.079"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"

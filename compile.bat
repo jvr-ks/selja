@@ -9,7 +9,7 @@
 
 @call selja.exe remove
 
-@callo "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /in selja.ahk /out selja.exe /icon selja.ico /bin "C:\Program Files\AutoHotkey\Compiler\Unicode 64-bit.bin"
+@call "C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /in selja.ahk /out selja.exe /icon selja.ico /bin "C:\Program Files\AutoHotkey\Compiler\Unicode 64-bit.bin"
 
 @goto end
 

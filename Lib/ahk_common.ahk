@@ -323,6 +323,33 @@ eq(a, b) {
 		return 1
 	return 0
 }
+;-------------------------------- openWindow --------------------------------
+openWindow(title){
+	SetTitleMatchMode, 2
+	wHwnd := 0
+
+	if WinExist(title){
+		winActivate,%title%
+		sleep, 200
+		
+		TrialLoop:
+		Loop, 20
+		{
+			if (!WinActive(title)){
+				ToolTip, Waiting for Window: %title% to open!
+				sleep, 1000
+			} else {
+				wHwnd := WinActive(title)
+				break TrialLoop
+			}
+		}
+	} else {
+		errormsg := "ERROR, window " . title . " not found!"
+		ToolTip, ERROR, %errormsg%
+	}
+
+	return wHwnd
+}
 ; ----------------------------------------------------------------------------- 
 
 

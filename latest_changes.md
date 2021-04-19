@@ -1,5 +1,7 @@
 #### Latest changes: [-> README](README.md)
   
+  
+* Path to remove can contain "Java" or "java"
 * EXE4J_JAVA_HOME can be set too 
 * Menu entry "Show Path"  
 Shows the actual System-Path, one entry on a line.

@@ -42,9 +42,12 @@ Virus check see below.
 This simple tool can switch among different java runtime versions.  
 Uses a Powershell command to set the System-Path (64 bit Powershell must be available),  
 must be **run as an administrator** therefor!  
-Right click "selja.exe",select "Run as administrator",  
-or prepare: Right click, select "Create Shortcut".  
-Right click on "selja.lnk", -> Erweitert -> Als Administrator ausführen.  
+  
+Right click "selja.exe", select "Run as administrator", 
+   
+or  
+Prepare once: Right click, select "Create Shortcut".  
+Right click on the Shortcut "selja.lnk", -> "Advanced..." -> Select "Run as Administrator".    
   
 Then allways click on "selja.lnk" to start selja.  
   

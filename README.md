@@ -50,6 +50,12 @@ Prepare once: Right click, select "Create Shortcut".
 Right click on the Shortcut "selja.lnk", -> "Advanced..." -> Select "Run as Administrator".    
   
 Then allways click on "selja.lnk" to start selja.  
+
+or  
+
+use the batch-file: "create_selja_exe_link_with_hidewindow.bat" once to create an autostart entry.  
+Selja ist started in the background then. Use the hotkey to show the menu.  
+  
   
 With a \[Click] on an entry in the list:  
 1. All PATH entries containing the following characters:  
@@ -148,6 +154,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virus check at Virustotal 
-[Check here](https://www.virustotal.com/gui/url/f64aaa1c5045f63cfef9d1701d3b4a8055259366728048d04d8db8fcf4012e23/detection/u-f64aaa1c5045f63cfef9d1701d3b4a8055259366728048d04d8db8fcf4012e23-1618838663
+[Check here](https://www.virustotal.com/gui/url/f64aaa1c5045f63cfef9d1701d3b4a8055259366728048d04d8db8fcf4012e23/detection/u-f64aaa1c5045f63cfef9d1701d3b4a8055259366728048d04d8db8fcf4012e23-1618840073
 )  
 Use [CTRL] + Click to open in a new window! 

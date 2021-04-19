@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.081"
+appVersion := "0.082"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -105,6 +105,8 @@ if (!A_IsAdmin){
 	exit()
 }
 
+autoconfirm := false
+
 pathBackup := resolvepath(wrkDir,"_thePathBackup.txt")
 
 ; *********** Gui parameter ***********
@@ -116,32 +118,47 @@ windowWidth := 0
 windowHeight := 0
 windowPosFixed := false
 
-; *************************************
-
-; **********  read param
+;-------------------------------- read param --------------------------------
 hasParams := A_Args.Length()
+autoSelectName := ""
+starthidden := false
 
-if (hasParams == 1){
-	if(A_Args[1] == "remove"){
-		showHint("Selja removed!", 1000)
-		ExitApp,0
+if (hasParams == 0){
+	prepare()
+	mainWindow(starthidden)
+} else {
+	Loop % hasParams
+	{
+		if(eq(A_Args[A_index],"remove")){
+			showHint("Selja removed!", 1000)
+			ExitApp,0
+		}
+
+		if(eq(A_Args[A_index],"hidewindow")){
+			starthidden := true
+		}
+
+		FoundPos := RegExMatch(A_Args[A_index], "\[.*?]" , argsParam)
+		if(FoundPos > 0){
+			autoSelectName := A_Args[A_index]
+		}
 	}
-	if(A_Args[1] == "hidewindow"){
+	
+	prepare()
+	mainWindow(starthidden)
+	
+	if (starthidden){
 		hktest := hotkeyToText(menuHotkey)
 		tipTopTime("Started " . app . ", Hotkey is: " . hktest, 4000)
-		prepare()
-		mainWindow(true)
-	} else {
-		p := A_Args[1]
-		msgbox, Wrong parameter: %p%, exiting!
-		ExitApp,0
 	}
-} else {
-	prepare()
-	mainWindow()
+	
+	if (autoSelectName != "")
+		autoSelect(autoSelectName)
 }
 
 return
+; ************************************* END
+
 ;******************************* showLinkList *******************************
 showLinkList(){
 	global wrkDir
@@ -443,9 +460,7 @@ mainWindow(hide := false) {
 	checkVersionFromGithub()
 	
 	Gui, guiMain:Menu, MainMenu
-		
 	
-
 	
 	if (!hide){
 		setTimer,registerWindow,-500
@@ -499,6 +514,32 @@ LVCommands(){
 
 	return
 }
+;-------------------------------- autoSelect --------------------------------
+autoSelect(autoSelectName){
+	global seljaEntriesArr
+	global autoconfirm
+	
+	;search for the name and get the number
+	ln := 0
+	
+	l := seljaEntriesArr.length()
+	Loop, %l%
+	{
+			seljaEntryArr := StrSplit(seljaEntriesArr[A_Index],",")
+			seljaEntryName := seljaEntryArr[1]
+
+		if (eq(autoSelectName,seljaEntryName)){
+			ln := A_Index
+			autoconfirm := true
+			showHint("Selected Java: " . autoSelectName, 2000)
+		}
+	}
+
+	if(ln != 0)
+		runInDir(ln)
+
+	return
+}
 ;********************************* runInDir *********************************
 runInDir(lineNumber){
 	global wrkDir
@@ -508,6 +549,7 @@ runInDir(lineNumber){
 	global toolsArr
 	global setEXE4J
 	global setUTF8
+	global autoconfirm
 
 	if (lineNumber != 0){
 
@@ -641,16 +683,19 @@ runInDir(lineNumber){
 			setPath := setPath . "[Environment]::SetEnvironmentVariable('PATH', ""$newPath"",'Machine');""`n"
 			
 			pv := strReplace(s,";",";`n")
-	
-			MsgBox,4,Attention please!,Are you sure to set the System-Path to:`n%pv%
-			IfMsgBox Yes
-			{
-				Run, %setPath%,,min
-				showHint("Finished!", 2000)
+			
+			if (!autoconfirm){
+					MsgBox,4,Attention please!,Are you sure to set the System-Path to:`n%pv%
+					IfMsgBox Yes
+					{
+						Run, %setPath%,,min
+						showHint("Finished!", 2000)
+					} else {
+						showHint("canceled!", 2000)
+					}
 			} else {
-				showHint("canceled!", 2000)
+				Run, %setPath%,,min
 			}
-
 		}
 	}
 	

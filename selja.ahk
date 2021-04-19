@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.080"
+appVersion := "0.081"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -612,13 +612,13 @@ runInDir(lineNumber){
 				msgbox, Severe error saving %pathBackup%
 				exit()
 			}
-						
+			
 			a := StrSplit(thePath,";")
 
 			s := ""
 			for index, element in a
 			{
-				if (!RegExMatch(element,"\\.*?java.*?\\bin") && !RegExMatch(element,"\\.*?java.*?\\lib\\svm\\bin"))
+				if (!RegExMatch(element,"\\.*?[j,J]ava.*?\\bin") && !RegExMatch(element,"\\.*?[j,J]ava.*?\\lib\\svm\\bin"))
 					s := s . element . ";"
 			}
 

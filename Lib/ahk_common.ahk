@@ -336,18 +336,20 @@ openWindow(title){
 		Loop, 20
 		{
 			if (!WinActive(title)){
-				ToolTip, Waiting for Window: %title% to open!
+				showHint("Waiting for Window: " . title . " to open!", 1000)
 				sleep, 1000
+				winActivate,%title%
 			} else {
 				wHwnd := WinActive(title)
 				break TrialLoop
 			}
 		}
 	} else {
-		errormsg := "ERROR, window " . title . " not found!"
-		ToolTip, ERROR, %errormsg%
+		showHint("Window: " . title . " not found!", 4000)
+		sleep,4000
 	}
 
+	
 	return wHwnd
 }
 ; ----------------------------------------------------------------------------- 

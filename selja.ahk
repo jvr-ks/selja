@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.079"
+appVersion := "0.080"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -133,7 +133,7 @@ if (hasParams == 1){
 		mainWindow(true)
 	} else {
 		p := A_Args[1]
-		msgbox, Wrong parameter: %pathBackup%, exiting!
+		msgbox, Wrong parameter: %p%, exiting!
 		ExitApp,0
 	}
 } else {

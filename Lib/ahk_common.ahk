@@ -136,9 +136,7 @@ tipWindow(msg, transp := 0, timeout := 0, refresh := true){
 		Gui, tipWindow:Show, xCenter y1 Autosize NoActivate,TheTipWindow
 		tipWindowTextWidth := newtipWindowTextWidth
 	} else {
-;msgbox, %text1Hwnd% %tipWindowTextWidth%
 		SetTextAndResize(text1Hwnd, s)
-;msgbox, %s% %tipWindowTextWidth%
 		GuiControl,, %text1Hwnd%, %s%
 		if (newtipWindowTextWidth > tipWindowTextWidth){
 			tipWindowTextWidth := newtipWindowTextWidth
@@ -351,6 +349,35 @@ openWindow(title){
 
 	
 	return wHwnd
+}
+;--------------------------------- BaseToDec ---------------------------------
+BaseToDec(n, Base) {
+	static U := A_IsUnicode ? "wcstoui64_l" : "strtoui64"
+	return, DllCall("msvcrt\_" U, "Str",n, "Uint",0, "Int",Base, "CDECL Int64")
+}
+;--------------------------------- DecToBase ---------------------------------
+DecToBase(n, Base) {
+	static U := A_IsUnicode ? "w" : "a"
+	VarSetCapacity(S,65,0)
+	DllCall("msvcrt\_i64to" U, "Int64",n, "Str",S, "Int",Base)
+	return, S
+}
+;----------------------------- getKeyboardState -----------------------------
+getKeyboardState(){
+	r := 0
+	if (getkeystate("Capslock","T") == 1)
+		r := r + 1
+		
+	if (getkeystate("Alt","P") == 1)
+		r := r + 2
+		
+	if (getkeystate("Ctrl","P") == 1)
+		r:= r + 4
+		
+	if (getkeystate("Shift","P") == 1)
+		r:= r + 8
+
+	return r
 }
 ; ----------------------------------------------------------------------------- 
 

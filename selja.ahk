@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.082"
+appVersion := "0.083"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -562,7 +562,7 @@ runInDir(lineNumber){
 
 		case 2:
 			;*** Alt ***
-			showMessage("Only [Shift] + [Click] is defined!")
+			showMessage("Click + [Alt] is not yet used!")
 	
 		case 4:
 			;*** Ctrl ***
@@ -814,22 +814,8 @@ checkJava(){
 ; in Lib
 
 ;***************************** getKeyboardState *****************************
-getKeyboardState(){
-	r := 0
-	if (getkeystate("Capslock","T")=1)
-		r := 1
-		
-	if (getkeystate("Alt","P")=1)
-		r := 2
-		
-	if (getkeystate("Ctrl","P")=1)
-		r:= 4
-		
-	if (getkeystate("Shift","P")=1)
-		r:= 8	
+; in Lib
 
-	return r
-}
 ;********************************** cvtPath **********************************
 cvtPath(s, path){
 	r := s

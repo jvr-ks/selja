@@ -41,24 +41,50 @@ checkVersionFromGithub(){
 	if (vers != "unknown"){
 		if (vers > appVersion){
 			msg := "New version available, this is: " . appVersion . ", available on Github is: " . vers
-			showMessage(msg)
+			showMessageDefault4_1(msg)
 		}
 	}
-					
+	
 	return
 }
-;-------------------------------- showMessage --------------------------------
-showMessage(msg){
+;------------------------------- showMessage4 -------------------------------
+showMessage4(hk1, hk2, memory,reso){
 
-	SB_SetText("  " . msg,1,1)
+	SB_SetParts(700,500,170)
+	SB_SetText(" " . hk1 , 1, 1)
+	SB_SetText(" " . hk2 , 2, 1)
+	SB_SetText("`t" . reso , 3, 2)
+	SB_SetText("`t" . memory , 4, 2)
+
+	return
+}
+;--------------------------- showMessageDefault4_1 ---------------------------
+showMessageDefault4_1(hk1){
+	global menuHotkey
+	global exithotkey
+	
+	msg1 := "Hotkey: " . hotkeyToText(menuHotkey)
+	msg2 := "Exit-hotkey: " . hotkeyToText(exithotkey)
+	
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]"
+	resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
+
+	showMessage4(hk1, msg1, resolution, memory)
 	
 	return
 }
-;------------------------------- removeMessage -------------------------------
-removeMessage(){
-	global msgDefault
+;---------------------------- showMessageDefault4 ----------------------------
+showMessageDefault4(){
+	global menuHotkey
+	global exithotkey
 	
-	showMessage(msgDefault)
+	msg1 := "Hotkey: " . hotkeyToText(menuHotkey)
+	msg2 := "Exit-hotkey: " . hotkeyToText(exithotkey)
+	
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]"
+	resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
+
+	showMessage4(msg1, msg2, resolution, memory)
 	
 	return
 }

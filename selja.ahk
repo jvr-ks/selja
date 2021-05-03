@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.084"
+appVersion := "0.085"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -97,8 +97,6 @@ seljaEntriesArr := []
 linkListArr := {}
 
 msg_control_array = []
-
-msgDefault := ""
 
 if (!A_IsAdmin){
 	msgBox, SEVERE ERROR, NOT ADMIN, Exiting app ...!
@@ -238,16 +236,12 @@ hideWindow(){
 ;---------------------------- showWindowRefreshed ----------------------------
 showWindowRefreshed(){
 	global menuHotkey
-	global msgDefault
 	global OwnPID
 
 	refreshGui()
 	showWindow()
 	
-	mem := GetProcessMemoryUsage(OwnPID) " MB"	
-	msg := msgDefault . ", [" . mem . "]"
-	
-	showMessage(msg)
+	showMessageDefaultSelja()
 	
 	return
 }
@@ -270,7 +264,6 @@ readIni(){
 	global linesInListMaxDefault
 	global setEXE4J
 	global setUTF8
-	global msgDefault
 
 ; read Hotkey definition
 	IniRead, menuHotkey, %iniFile%, hotkeys, menuhotkey , %menuhotkeyDefault%
@@ -290,8 +283,6 @@ readIni(){
 	IniRead, setEXE4J, %iniFile%, config, setEXE4J_JAVA_HOME, "no"
 	
 	IniRead, setUTF8, %iniFile%, config, setUTF8, "no"
-	
-	msgDefault := "Open Selja hotkey: " . hotkeyToText(menuHotkey ) . ", Edit entry: [Shift] + [Click], Open Path: [Ctrl] + [Click]"
 
 	return
 }
@@ -386,7 +377,6 @@ mainWindow(hide := false) {
 	global listWidth
 	global LV1
 	global appVersion
-	global msgDefault
 	global linesInListMax
 	global linesInListMaxDefault
 	global windowPosX
@@ -452,10 +442,7 @@ mainWindow(hide := false) {
 	
 	Gui, guiMain:Add, StatusBar
 	
-	mem := GetProcessMemoryUsage(OwnPID) " MB"	
-	msg := msgDefault . ", [" . mem . "]"
-	
-	showMessage(msg)
+	showMessageDefaultSelja()
 	
 	checkVersionFromGithub()
 	
@@ -558,11 +545,11 @@ runInDir(lineNumber){
 		{
 		case 1:
 			;*** Capslock ***
-			showMessage("Operation inhibited due to [Capslock]!")
+			showMessageSelja1("Operation inhibited due to [Capslock]!")
 
 		case 2:
 			;*** Alt ***
-			showMessage("Click + [Alt] is not yet used!")
+			showMessageSelja1("Click + [Alt] is not yet used!")
 	
 		case 4:
 			;*** Ctrl ***
@@ -696,6 +683,7 @@ runInDir(lineNumber){
 			} else {
 				Run, %setPath%,,min
 			}
+			showMessageDefaultSelja()
 		}
 	}
 	
@@ -726,10 +714,9 @@ editseljaFile() {
 	global seljaFile
 	global notepadpath
 	
-	showMessage("Please close the editor to refresh the menu!")
+	showMessageSelja1("Please close the editor to refresh the menu!")
 	f := notepadpath . " " . seljaFile
 	runWait %f%,,max
-	removeMessage()
 	
 	showWindowRefreshed()
 
@@ -759,10 +746,9 @@ editIniFile() {
 	global notepadpath
 	
 	f := notepadpath . " " . iniFile
-	showMessage("Please close the editor to refresh the menu!")
+	showMessageSelja1("Please close the editor to refresh the menu!")
 
 	runWait %f%
-	removeMessage()
 	
 	showWindowRefreshed()
 
@@ -774,9 +760,8 @@ editLinkListFile() {
 	global linkListFile
 
 	f := notepadpath . " " . linkListFile
-	showMessage("Please close the editor to refresh the menu!")
+	showMessageSelja1("Please close the editor to refresh the menu!")
 	runWait %f%
-	removeMessage()
 	
 	showWindowRefreshed()
 
@@ -788,9 +773,8 @@ editPathBackupFile() {
 	global pathBackup
 
 	f := notepadpath . " " . pathBackup
-	showMessage("Please close the editor to refresh the menu!")
+	showMessageSelja1("Please close the editor to refresh the menu!")
 	runWait %f%
-	removeMessage()
 	
 	showWindowRefreshed()
 
@@ -806,7 +790,7 @@ checkJava(){
 	global wrkDir
 	
 	msg := "Please use the external app ""javaVersion.exe"" to check the Java-version!"
-	showMessage(msg)
+	showMessageSelja1(msg)
 }
 ; *********************************** hkToDescription ******************************
 ; in Lib
@@ -944,6 +928,40 @@ openJavaDir(){
 	EnvGet, runcmd, JAVA_HOME
 	Run, %runcmd%,,max	
 			
+	return
+}
+;------------------------- showMessageDefaultSelja -------------------------
+showMessageDefaultSelja(){
+	global menuHotkey
+
+	msg1 := "Open Selja hotkey: " . hotkeyToText(menuHotkey ) . ", Edit entry: [Shift] + [Click]"
+	msg2 := "Open Path: [Ctrl] + [Click]    "
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]    "
+	resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
+	
+	showMessageSelja3(msg1, msg2, memory)
+	
+	return
+}
+;---------------------------- showMessageSelja3 ----------------------------
+showMessageSelja3(hk1, hk2, memory){
+
+	SB_SetParts(1000,500)
+	SB_SetText(" " . hk1 , 1, 1)
+	SB_SetText(" " . hk2 , 2, 1)
+	SB_SetText("`t`t" . memory , 3, 2)
+
+	return
+}
+;---------------------------- showMessageSelja1 ----------------------------
+showMessageSelja1(hk1){
+
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]    "
+
+	SB_SetParts(1000)
+	SB_SetText(" " . hk1 , 1, 1)
+	SB_SetText("`t`t" . memory , 2, 2)
+
 	return
 }
 ;*********************************** exit ***********************************

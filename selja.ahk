@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.085"
+appVersion := "0.086"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -146,8 +146,8 @@ if (hasParams == 0){
 	mainWindow(starthidden)
 	
 	if (starthidden){
-		hktest := hotkeyToText(menuHotkey)
-		tipTopTime("Started " . app . ", Hotkey is: " . hktest, 4000)
+		hktext := hotkeyToText(menuHotkey)
+		tipTopTime("Started " . app . ", Hotkey is: " . hktext, 4000)
 	}
 	
 	if (autoSelectName != "")
@@ -393,7 +393,6 @@ mainWindow(hide := false) {
 	Menu, MainMenuLinklist, DeleteAll
 	Menu, MainMenuGithub, DeleteAll
 	Menu, MainMenuGraalvm, DeleteAll
-	Menu, MainMenuClose, DeleteAll
 	
 	Menu, MainMenuEdit,Add,Edit Selja-file: "%seljaFile%" with Notepad++,editseljaFile
 	Menu, MainMenuEdit,Add,Edit Ini-file: "%iniFile%" with Notepad++,editIniFile
@@ -406,9 +405,6 @@ mainWindow(hide := false) {
 	Menu, MainMenuLinklist,Add,Edit Linklist with Notepad++,editLinkListFile
 	Menu, MainMenuGithub,Add,Open %appName% Github webpage,openGithubPage
 	
-	exitHotkeyText := "Close " . appName . " and remove it from memory -> Hotkey: " . hotkeyToText(exitHotkey)
-	Menu, MainMenuClose,Add,%exitHotkeyText%,exit
-	
 	Menu, MainMenu, NoDefault	
 	Menu, MainMenu, Add,Edit,:MainMenuEdit
 	Menu, MainMenu, Add,Show Path,showPath
@@ -416,9 +412,9 @@ mainWindow(hide := false) {
 	Menu, MainMenu, Add,Linklist,:MainMenuLinklist
 	Menu, MainMenu, Add,Github,:MainMenuGithub
 	Menu, MainMenu, Add,GraalVm,:MainMenuGraalvm
-	Menu, MainMenu, Add,Close,:MainMenuClose
+	Menu, MainMenu, Add,Kill app,exit
 	
-	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize -DPIScale, %app%
+	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
 	
 	Gui, guiMain:Font, s%fontsize%, %font%
 
@@ -870,6 +866,11 @@ readGuiParam(){
 		windowHeight := windowHeightDefault
 	
 	IniRead, fontsize, %iniFile%, config, fontsize, %fontsizeDefault%
+	
+	;DPIScale correction:
+	windowWidth := Round(windowWidth * 96/A_ScreenDPI)
+	windowHeight := Round(windowHeight * 96/A_ScreenDPI)
+	
 
 	return
 }

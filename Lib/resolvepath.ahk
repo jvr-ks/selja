@@ -10,6 +10,6 @@ resolvepath(wrkPath,path) {
 	if (InStr(path,":"))
 		r := path
 		
-	return r	
+	return r
 }
 

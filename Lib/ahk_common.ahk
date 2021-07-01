@@ -36,55 +36,18 @@ getVersionFromGithub(){
 checkVersionFromGithub(){
 	global appVersion
 	global msgDefault
+	global MainStatusBarHwnd
 	
 	vers := getVersionFromGithub()
 	if (vers != "unknown"){
 		if (vers > appVersion){
 			msg := "New version available, this is: " . appVersion . ", available on Github is: " . vers
-			showMessageDefault4_1(msg)
+			SB_SetParts(600)
+			SB_SetText(" " . msg , 1, 1)
+			SendMessage, GuiConstants("CCM_SETBKCOLOR"), 0, 0x9999FF,, ahk_id %MainStatusBarHwnd%
+			SendMessage, GuiConstants("WM_CTLCOLOREDIT"), 0, 0xFFFFFF,, ahk_id %MainStatusBarHwnd%
 		}
 	}
-	
-	return
-}
-;------------------------------- showMessage4 -------------------------------
-showMessage4(hk1, hk2, memory,reso){
-
-	SB_SetParts(700,500,170)
-	SB_SetText(" " . hk1 , 1, 1)
-	SB_SetText(" " . hk2 , 2, 1)
-	SB_SetText("`t" . reso , 3, 2)
-	SB_SetText("`t" . memory , 4, 2)
-
-	return
-}
-;--------------------------- showMessageDefault4_1 ---------------------------
-showMessageDefault4_1(hk1){
-	global menuHotkey
-	global exithotkey
-	
-	msg1 := "Hotkey: " . hotkeyToText(menuHotkey)
-	msg2 := "Exit-hotkey: " . hotkeyToText(exithotkey)
-	
-	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]"
-	resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
-
-	showMessage4(hk1, msg1, resolution, memory)
-	
-	return
-}
-;---------------------------- showMessageDefault4 ----------------------------
-showMessageDefault4(){
-	global menuHotkey
-	global exithotkey
-	
-	msg1 := "Hotkey: " . hotkeyToText(menuHotkey)
-	msg2 := "Exit-hotkey: " . hotkeyToText(exithotkey)
-	
-	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]"
-	resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
-
-	showMessage4(msg1, msg2, resolution, memory)
 	
 	return
 }
@@ -127,7 +90,7 @@ SetTextAndResize(controlHwnd, newText) {
 	DllCall("ReleaseDC", "Ptr", controlHwnd, "Ptr", dc)
 
 	GuiControl,, %controlHwnd%, %newText%
-	;GuiControl Move, %controlHwnd%, % "h" h " w" w
+
 	GuiControl Move, %controlHwnd%, % "w" w
 	
 	newtipWindowTextWidth := w
@@ -154,7 +117,8 @@ tipWindow(msg, transp := 0, timeout := 0, refresh := true){
 	tipWindowhwnd := WinExist("TheTipWindow")
 	
 	if ( tipWindowhwnd == 0){
-		Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+		;Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+		Gui, tipWindow:New,-Caption +AlwaysOnTop
 		Gui, tipWindow:Font, s%fontsize%, %font%
 		Gui tipWindow:Margin, 2, 2
 		Gui, tipWindow:Add, Text, Hwndtext1Hwnd vTipWindow R1 Center
@@ -167,7 +131,8 @@ tipWindow(msg, transp := 0, timeout := 0, refresh := true){
 		if (newtipWindowTextWidth > tipWindowTextWidth){
 			tipWindowTextWidth := newtipWindowTextWidth
 			tipWindowClose()
-			Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+			;Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+			Gui, tipWindow:New,-Caption +AlwaysOnTop
 			Gui, tipWindow:Font, s%fontsize%, %font%
 			Gui tipWindow:Margin, 2, 2
 			Gui, tipWindow:Add, Text, Hwndtext1Hwnd vTipWindow R1 Center
@@ -278,13 +243,13 @@ StrLower(s){
 }
 ;******************************** openShell ********************************
 openShell(commands) {
-    shell := ComObjCreate("WScript.Shell")
-    exec := shell.Exec(ComSpec " /Q /K echo off")
+	shell := ComObjCreate("WScript.Shell")
+	exec := shell.Exec(ComSpec " /Q /K echo off")
 	exec.StdIn.WriteLine(commands "`nexit") 
 	r := exec.StdOut.ReadAll()
 	msgbox, %r%
 	
-    return
+	return
 }
 ;******************************** showObject ********************************
 showObject(a){
@@ -312,6 +277,7 @@ GetProcessMemoryUsage(ProcessID)
 }
 ;--------------------------------- showHint ---------------------------------
 showHint(s, n){
+	global hinttimer
 	global font
 	global fontsize
 	
@@ -321,8 +287,8 @@ showHint(s, n){
 	Gui, hint:+ToolWindow
 	Gui, hint:+AlwaysOnTop
 	Gui, hint:Show
-	sleep, n
-	Gui, hint:Destroy
+	t := -1 * n
+	setTimer,showHintDestroy, %t%
 	return
 }
 ;-------------------------------- showHintAt --------------------------------
@@ -336,9 +302,17 @@ showHintAt(s, n, x, y){
 	Gui, hint:+ToolWindow
 	Gui, hint:+AlwaysOnTop
 	Gui, hint:Show, x%x% y%y%
-	Sleep, n
-	Gui, hint:Destroy
+	t := -1 * n
+	setTimer,showHintDestroy, %t%
 	
+	return
+}
+;------------------------------ showHintDestroy ------------------------------
+showHintDestroy(){
+	global hinttimer
+
+	setTimer,showHintDestroy, delete
+	Gui, hint:Destroy
 	return
 }
 ;------------------------------------ eq ------------------------------------
@@ -405,8 +379,76 @@ getKeyboardState(){
 
 	return r
 }
-; ----------------------------------------------------------------------------- 
 
+;-------------------------------- showMessage --------------------------------
+showMessage(hk1, hk2){
+	global menuHotkey
+	global exitHotkey
+
+	SB_SetParts(160,580)
+	if (hk1 != ""){
+		SB_SetText(" " . hk1 , 1, 1)
+	} else {
+		SB_SetText(" " . "Hotkey: " . hotkeyToText(menuHotkey) , 1, 1)
+	}
+		
+	if (hk2 != ""){
+		SB_SetText(" " . hk2 , 2, 1)
+	} else {
+		SB_SetText(" " . "Exit-hotkey: " . hotkeyToText(exitHotkey) , 2, 1)
+	}
+	
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]      "
+	SB_SetText("`t`t" . memory , 3, 2)
+
+	return
+}
+;------------------------------- removeMessage -------------------------------
+removeMessage(){
+	global menuHotkey
+	global exitHotkey
+
+	SB_SetParts(160,580)
+	SB_SetText(" " . "Hotkey: " . hotkeyToText(menuHotkey) , 1, 1)
+
+	SB_SetText(" " . "Exit-Hotkey: " . hotkeyToText(exitHotkey) , 2, 1)
+	
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]      "
+	SB_SetText("`t`t" . memory , 3, 2)
+
+	return
+}
+;------------------------------- showMessage4 -------------------------------
+showMessage4(hk1, hk2, reso){
+	global menuHotkey
+	global exitHotkey
+
+	SB_SetParts(300,500,200)
+	if (hk1 != ""){
+		SB_SetText(" " . hk1 , 1, 1)
+	} else {
+		SB_SetText(" " . "Hotkey: " . hotkeyToText(menuHotkey) , 1, 1)
+	}
+		
+	if (hk2 != ""){
+		SB_SetText(" " . hk2 , 2, 1)
+	} else {
+		SB_SetText(" " . "Exit-hotkey: " . hotkeyToText(exitHotkey) , 2, 1)
+	}
+	
+	if (reso != ""){
+		SB_SetText("`t" . reso , 3, 2)
+	} else {
+		resolution := "[" . A_ScreenWidth . " x " . A_ScreenHeight . "]"
+		SB_SetText("`t" . reso , 3, 2)
+	}
+	
+	memory := "[" . GetProcessMemoryUsage(DllCall("GetCurrentProcessId")) . " MB]      "
+	SB_SetText("`t`t" . memory , 4, 2)
+
+	return
+}
+; ----------------------------------------------------------------------------- 
 
 
 

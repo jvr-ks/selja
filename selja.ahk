@@ -58,7 +58,7 @@ FileEncoding, UTF-8-RAW
 wrkDir := A_ScriptDir . "\"
 
 appName := "Selja"
-appVersion := "0.086"
+appVersion := "0.087"
 app := appName . " " . appVersion
 
 iniFileDefault := "selja.ini"
@@ -107,7 +107,7 @@ autoconfirm := false
 
 pathBackup := resolvepath(wrkDir,"_thePathBackup.txt")
 
-; *********** Gui parameter ***********
+;------------------------------- Gui parameter -------------------------------
 activeWin := 0
 
 windowPosX := 0
@@ -141,6 +141,7 @@ if (hasParams == 0){
 			autoSelectName := A_Args[A_index]
 		}
 	}
+	;----------------------------------------------------------------------------
 	
 	prepare()
 	mainWindow(starthidden)
@@ -155,9 +156,103 @@ if (hasParams == 0){
 }
 
 return
-; ************************************* END
+;-------------------------------- mainWindow --------------------------------
+mainWindow(hide := false){
+	; main element is the ListView LV1
+	global font
+	global fontsize
+	
+	global seljaEntriesArr
+	global seljaFile
+	global toolsFile
+	global iniFile
+	global app
+	global appName
+	global menuHotkey
+	global exitHotkey
+	global listWidth
+	global LV1
+	global appVersion
+	global linesInListMax
+	global linesInListMaxDefault
+	global windowPosX
+	global windowPosY
+	global windowWidth
+	global windowHeight
+	global OwnPID
+	global pathBackup
 
-;******************************* showLinkList *******************************
+	Menu, Tray, UseErrorLevel   ; This affects all menus, not just the tray.
+
+	Menu, MainMenu, DeleteAll
+	Menu, MainMenuEdit, DeleteAll
+	Menu, MainMenuLinklist, DeleteAll
+	Menu, MainMenuGithub, DeleteAll
+	Menu, MainMenuGraalvm, DeleteAll
+	
+	Menu, MainMenuEdit,Add,Edit Selja-file: "%seljaFile%" with Notepad++,editseljaFile
+	Menu, MainMenuEdit,Add,Edit Ini-file: "%iniFile%" with Notepad++,editIniFile
+	Menu, MainMenuEdit,Add,Edit PathBackup-file: "%pathBackup%" with Notepad++,editPathBackupFile
+	
+	Menu, MainMenuLinklist,Add,Linklist of Java Sources Webpages,showLinkList
+	
+	Menu, MainMenuGraalvm,Add,Run gu install native-image,nativeImageInstall
+	Menu, MainMenuGraalvm,Add,Open Java directory,openJavaDir
+	Menu, MainMenuLinklist,Add,Edit Linklist with Notepad++,editLinkListFile
+	Menu, MainMenuGithub,Add,Open %appName% Github webpage,openGithubPage
+	
+	Menu, MainMenu, NoDefault	
+	Menu, MainMenu, Add,Edit,:MainMenuEdit
+	Menu, MainMenu, Add,Show Path,showPath
+	Menu, MainMenu, Add,Windows Path Tool,windowsPathTool
+	Menu, MainMenu, Add,Linklist,:MainMenuLinklist
+	Menu, MainMenu, Add,Github,:MainMenuGithub
+	Menu, MainMenu, Add,GraalVm,:MainMenuGraalvm
+	Menu, MainMenu, Add,Kill app,exit
+	
+	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
+	
+	Gui, guiMain:Font, s%fontsize%, %font%
+
+	xStart := 8
+	yStart := 5
+	linesInList := Min(linesInListMax, seljaEntriesArr.length())
+	
+	Gui, Add, ListView, x%xStart% y%yStart% r%linesInList% w%listWidth% gLVCommands vLV1 AltSubmit -Multi Grid, |Name|JDK-path|JDK-bin-path|Additional-path
+
+	for index, element in seljaEntriesArr
+	{
+		elementArr := StrSplit(element,",")
+		LV_Add("",index,elementArr[1], elementArr[2], elementArr[3], elementArr[4])
+	}
+	
+	LV_ModifyCol(1,"Auto Integer")
+	LV_ModifyCol(2,"Auto Text")
+	LV_ModifyCol(3,"Auto Text")
+	LV_ModifyCol(4,"Text")
+	LV_ModifyCol(5,"Text")
+	
+	Gui, guiMain:Add, StatusBar
+	
+	showMessageDefaultSelja()
+	
+	checkVersionFromGithub()
+	
+	Gui, guiMain:Menu, MainMenu
+	
+	
+	if (!hide){
+		setTimer,registerWindow,-500
+		setTimer,checkFocus,3000
+		Gui, guiMain:Show, x%windowPosX% y%windowPosY% w%windowWidth% h%windowHeight%
+	}
+	
+	OnMessage(0x200, "WM_MOUSEMOVE")
+	OnMessage(0x2a3, "WM_MOUSELEAVE")
+	
+	return
+}
+;------------------------------- showLinkList -------------------------------
 showLinkList(){
 	global wrkDir
 	global iniFile
@@ -188,7 +283,7 @@ showLinkList(){
 	
 	return
 }
-;**************************** linkSelectedAction ****************************
+;---------------------------- linkSelectedAction ----------------------------
 linkSelectedAction(){
 	global linkListArr
 
@@ -359,101 +454,6 @@ checkFocus(){
 		}
 	}
 		
-	return
-}
-; *********************************** mainWindow ******************************
-mainWindow(hide := false) {
-	global font
-	global fontsize
-	
-	global seljaEntriesArr
-	global seljaFile
-	global toolsFile
-	global iniFile
-	global app
-	global appName
-	global menuHotkey
-	global exitHotkey
-	global listWidth
-	global LV1
-	global appVersion
-	global linesInListMax
-	global linesInListMaxDefault
-	global windowPosX
-	global windowPosY
-	global windowWidth
-	global windowHeight
-	global OwnPID
-	global pathBackup
-
-	Menu, Tray, UseErrorLevel   ; This affects all menus, not just the tray.
-
-	Menu, MainMenu, DeleteAll
-	Menu, MainMenuEdit, DeleteAll
-	Menu, MainMenuLinklist, DeleteAll
-	Menu, MainMenuGithub, DeleteAll
-	Menu, MainMenuGraalvm, DeleteAll
-	
-	Menu, MainMenuEdit,Add,Edit Selja-file: "%seljaFile%" with Notepad++,editseljaFile
-	Menu, MainMenuEdit,Add,Edit Ini-file: "%iniFile%" with Notepad++,editIniFile
-	Menu, MainMenuEdit,Add,Edit PathBackup-file: "%pathBackup%" with Notepad++,editPathBackupFile
-	
-	Menu, MainMenuLinklist,Add,Linklist of Java Sources Webpages,showLinkList
-	
-	Menu, MainMenuGraalvm,Add,Run gu install native-image,nativeImageInstall
-	Menu, MainMenuGraalvm,Add,Open Java directory,openJavaDir
-	Menu, MainMenuLinklist,Add,Edit Linklist with Notepad++,editLinkListFile
-	Menu, MainMenuGithub,Add,Open %appName% Github webpage,openGithubPage
-	
-	Menu, MainMenu, NoDefault	
-	Menu, MainMenu, Add,Edit,:MainMenuEdit
-	Menu, MainMenu, Add,Show Path,showPath
-	Menu, MainMenu, Add,Windows Path Tool,windowsPathTool
-	Menu, MainMenu, Add,Linklist,:MainMenuLinklist
-	Menu, MainMenu, Add,Github,:MainMenuGithub
-	Menu, MainMenu, Add,GraalVm,:MainMenuGraalvm
-	Menu, MainMenu, Add,Kill app,exit
-	
-	Gui,guiMain:New,+E0x08000000 +OwnDialogs +LastFound MaximizeBox HwndhMain +Resize, %app%
-	
-	Gui, guiMain:Font, s%fontsize%, %font%
-
-	xStart := 8
-	yStart := 5
-	linesInList := Min(linesInListMax, seljaEntriesArr.length())
-	
-	Gui, Add, ListView, x%xStart% y%yStart% r%linesInList% w%listWidth% gLVCommands vLV1 AltSubmit -Multi Grid, |Name|JDK-path|JDK-bin-path|Additional-path
-
-	for index, element in seljaEntriesArr
-	{
-		elementArr := StrSplit(element,",")
-		LV_Add("",index,elementArr[1], elementArr[2], elementArr[3], elementArr[4])
-	}
-	
-	LV_ModifyCol(1,"Auto Integer")
-	LV_ModifyCol(2,"Auto Text")
-	LV_ModifyCol(3,"Auto Text")
-	LV_ModifyCol(4,"Text")
-	LV_ModifyCol(5,"Text")
-	
-	Gui, guiMain:Add, StatusBar
-	
-	showMessageDefaultSelja()
-	
-	checkVersionFromGithub()
-	
-	Gui, guiMain:Menu, MainMenu
-	
-	
-	if (!hide){
-		setTimer,registerWindow,-500
-		setTimer,checkFocus,3000
-		Gui, guiMain:Show, x%windowPosX% y%windowPosY% w%windowWidth% h%windowHeight%
-	}
-	
-	OnMessage(0x200, "WM_MOUSEMOVE")
-	OnMessage(0x2a3, "WM_MOUSELEAVE")
-	
 	return
 }
 ;******************************** refreshGui ********************************

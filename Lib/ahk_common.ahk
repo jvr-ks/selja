@@ -42,7 +42,7 @@ checkVersionFromGithub(){
 	if (vers != "unknown"){
 		if (vers > appVersion){
 			msg := "New version available, this is: " . appVersion . ", available on Github is: " . vers
-			SB_SetParts(600)
+			SB_SetParts()
 			SB_SetText(" " . msg , 1, 1)
 			SendMessage, GuiConstants("CCM_SETBKCOLOR"), 0, 0x9999FF,, ahk_id %MainStatusBarHwnd%
 			SendMessage, GuiConstants("WM_CTLCOLOREDIT"), 0, 0xFFFFFF,, ahk_id %MainStatusBarHwnd%
@@ -56,7 +56,6 @@ checkVersionFromGithub(){
 ;not 100% ok
 getLenPixel(EditTxt,font,fontsize){
 	global MyText
-	global dpiScale
 
 	Gui StringWidth:font, s%fontsize%, %font%
 	Gui, StringWidth:Margin,2,2
@@ -117,8 +116,8 @@ tipWindow(msg, transp := 0, timeout := 0, refresh := true){
 	tipWindowhwnd := WinExist("TheTipWindow")
 	
 	if ( tipWindowhwnd == 0){
-		;Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
-		Gui, tipWindow:New,-Caption +AlwaysOnTop
+		Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+		;Gui, tipWindow:New,-Caption +AlwaysOnTop
 		Gui, tipWindow:Font, s%fontsize%, %font%
 		Gui tipWindow:Margin, 2, 2
 		Gui, tipWindow:Add, Text, Hwndtext1Hwnd vTipWindow R1 Center
@@ -131,8 +130,8 @@ tipWindow(msg, transp := 0, timeout := 0, refresh := true){
 		if (newtipWindowTextWidth > tipWindowTextWidth){
 			tipWindowTextWidth := newtipWindowTextWidth
 			tipWindowClose()
-			;Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
-			Gui, tipWindow:New,-Caption +AlwaysOnTop
+			Gui, tipWindow:New,-Caption +AlwaysOnTop -dpiScale
+			;Gui, tipWindow:New,-Caption +AlwaysOnTop
 			Gui, tipWindow:Font, s%fontsize%, %font%
 			Gui tipWindow:Margin, 2, 2
 			Gui, tipWindow:Add, Text, Hwndtext1Hwnd vTipWindow R1 Center

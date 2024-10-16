@@ -1,0 +1,1 @@
+powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('______quicksave.lnk');$s.TargetPath='C:\___x2_wrk\_autohotkey\simpletools\quicksave.exe';$s.WorkingDirectory='C:\___x2_wrk\_autohotkey\selja';$s.Save()"

@@ -80,7 +80,7 @@ wrkDir := A_ScriptDir . "\"
 appName := "Selja"
 appnameLower := "selja"
 extension := ".exe"
-appVersion := "0.130"
+appVersion := "0.131"
 
 bit := (A_PtrSize=8 ? "64" : "32")
 

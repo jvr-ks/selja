@@ -19,7 +19,8 @@ The System-PATH is logged to the file "_thePathBackup.txt" before.
 (The last 20 values with a timestamp).
   
 #### HINT
-The list contains no subversions, so rename the folders accordingly.  
+The list of locally available Java versions "selja.txt" (if versions are installed!) contains no subversions,  
+so rename the folders accordingly.  
 Example:  
 Rename the folder:  
 C:\shared\graalvm-community-openjdk-25.0.0**+37.1**  
@@ -29,7 +30,29 @@ C:\shared\graalvm-community-openjdk-25.0.0
 **Remember: An already running shell (console) must be reopened to reflect the changes of the Windows-path!**  
 or use the included script "resetvars.vbs", which creates the batchfile "resetvars.bat",  
 calling this batchfile then creates all environment including Windows-path the variables inside the running shell.  
-TTake a look at the included batch-file "restApiTest.bat".  
+Take a look at the included batch-file "restApiTest.bat".  
+
+
+#### Latest changes  
+  
+Version (>=)| Change
+------------ | -------------  
+0.135 | Bugfixes
+0.134 | Uses powershell 1.0 to set environment variables ("Path", "JAVA_HOME" and "setEXE4J_JAVA_HOME" if enabled)
+0.129 | removes duplicate entries from windows-path, i.e.: "java ... \\bin", "jdk ... \\bin", "openjdk ... \\bin",
+0.126 | \[Config-file] changed to ("selja_COMPUTERNAME.ini") (UTF-16 LE-BOM encoded)
+0.125 | Updater integration
+0.122 | Some Gui-bugs fixed
+0.118 | File "mime.type" created auto. if not existent
+0.117 | UAC request integrated
+0.106 | Default port is: 65500 
+  
+#### Known issues / bugs 
+Issue / Bug | Type | fixed in version
+------------ | ------------- | -------------
+Scala 3 (sbt console) fails with "graalvm-community-openjdk-21+35.1" | issue | ---
+Version-display has the wrong position | issue | 0.105
+  
    
 #### Download via Updater (preferred method)
 Portable, run from any directory, but running from a subdirectory of the windows programm-directories   
@@ -257,25 +280,6 @@ pause
 ** Besides that, the purpose of "selja" is NOT to temporary switch the Scala-version in a batch-file,     
 because this can be done with path=scalapathXYZ;%path% and "set SCALA_HOME= ..." etc. !** 
   
-#### Latest changes  
-  
-Version (>=)| Change
------------- | -------------  
-0.134 | Uses powershell 1.0 to set environment variables ("JAVA_HOME" and "setEXE4J_JAVA_HOME" if enabled)
-0.129 | removes duplicate entries from windows-path, i.e.: "java ... \\bin", "jdk ... \\bin", "openjdk ... \\bin",
-0.126 | \[Config-file] changed to ("selja_COMPUTERNAME.ini") (UTF-16 LE-BOM encoded)
-0.125 | Updater integration
-0.122 | Some Gui-bugs fixed
-0.118 | File "mime.type" created auto. if not existent
-0.117 | UAC request integrated
-0.106 | Default port is: 65500 
-  
-#### Known issues / bugs 
-Issue / Bug | Type | fixed in version
------------- | ------------- | -------------
-Scala 3 (sbt console) fails with "graalvm-community-openjdk-21+35.1" | issue | ---
-Version-display has the wrong position | issue | 0.105
-  
 #### License: GNU GENERAL PUBLIC LICENSE
 Take a look at the file "license.txt" 
   
@@ -287,6 +291,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1765367189
+[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1765370904
 )  
 Use [CTRL] + Click to open in a new window! 

@@ -1,0 +1,8 @@
+(graalvm-community-openjdk-25.0.2),C:\shared\graalvm-community-openjdk-25.0.2,...\bin
+(graalvm-community-openjdk-24.0.2),C:\shared\graalvm-community-openjdk-24.0.2,...\bin
+(graalvm-community-openjdk-23.0.2),C:\shared\graalvm-community-openjdk-23.0.2,...\bin
+(graalvm-community-openjdk-22.0.1),C:\shared\graalvm-community-openjdk-22.0.1,...\bin
+(graalvm-community-openjdk-21.0.1),C:\shared\graalvm-community-openjdk-21.0.1,...\bin,...\lib\installer\bin
+(graalvm-ce-java17-22.3.1),C:\shared\graalvm-ce-java17-22.3.1,...\bin,...\lib\installer\bin
+(graalvm-ce-java11-22.3.1),C:\shared\graalvm-ce-java11-22.3.1,...\bin,...\lib\installer\bin
+(graalvm-ce-java8-21.2.0),C:\shared\graalvm-ce-java8-21.2.0,...\bin,...\lib\installer\bin

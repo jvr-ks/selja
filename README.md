@@ -1,9 +1,13 @@
 # Selja  
 (**Sel**ect **Ja**va)  
   
-#### Purpose
+#### Purpose  
 The purpose of "Selja" is to switch between different Java versions.  
 It modifies the Windows (System)-PATH and can set the JAVA_HOME environment-variable too.  
+Download each JVM release as a zip file and extract it to a distinct directory.  
+(I use "C:\shared\").  
+Add an approbriate entry to the file "selja.txt"!  
+After selecting a JVM you may check it with "javaVersion.exe".  
 **Windows only** (64 bit)  
 
 ##### Caution
@@ -37,7 +41,7 @@ Take a look at the included batch-file "restApiTest.bat".
   
 Version (>=)| Change
 ------------ | -------------  
-0.135 | Bugfixes
+0.138 | Temurin support to the GUI
 0.134 | Uses powershell 1.0 to set environment variables ("Path", "JAVA_HOME" and "setEXE4J_JAVA_HOME" if enabled)
 0.129 | removes duplicate entries from windows-path, i.e.: "java ... \\bin", "jdk ... \\bin", "openjdk ... \\bin",
 0.126 | \[Config-file] changed to ("selja_COMPUTERNAME.ini") (UTF-16 LE-BOM encoded)
@@ -291,6 +295,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1775218756
+[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1775234989
 )  
 Use [CTRL] + Click to open in a new window! 

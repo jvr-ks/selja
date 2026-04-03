@@ -1,5 +1,5 @@
-(temurin-25.0.2+10),C:\shared\jdk-25.0.2+10
-(temurin-21.0.10+7),C:\shared\jdk-21.0.10+7
+(temurin-25.0.2+10),C:\shared\jdk-25.0.2+10,...\bin
+(temurin-21.0.10+7),C:\shared\jdk-21.0.10+7,...\bin
 (graalvm-community-openjdk-25.0.2),C:\shared\graalvm-community-openjdk-25.0.2,...\bin
 (graalvm-community-openjdk-24.0.2),C:\shared\graalvm-community-openjdk-24.0.2,...\bin
 (graalvm-community-openjdk-23.0.2),C:\shared\graalvm-community-openjdk-23.0.2,...\bin

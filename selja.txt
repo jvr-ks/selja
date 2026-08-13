@@ -1,0 +1,5 @@
+(temurin-26.0.2+10),C:\shared\jdk-26.0.2+10,...\bin
+(temurin-25.0.4+7),C:\shared\jdk-25.0.4+7,...\bin
+(temurin-21.0.12+8),C:\shared\jdk-21.0.12+8,...\bin
+(graalvm-community-25.2.4+7.1),C:\shared\graalvm-community-25.2.4+7.1,...\bin
+(graalvm-ce-java8-21.2.0),C:\shared\graalvm-ce-java8-21.2.0,...\bin,...\lib\installer\bin

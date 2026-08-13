@@ -1,0 +1,12 @@
+selja.exe
+selja.txt
+seljaLinkList.txt
+javaVersion.exe
+resetvars.vbs
+testRestApi.bat
+testDirectCall.bat
+
+
+
+
+

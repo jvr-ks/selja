@@ -297,6 +297,6 @@ Copyright (c) 2020 J. v. Roos
 
 
 ##### Virusscan at Virustotal 
-[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1786613832
+[Virusscan at Virustotal, selja.exe 64bit-exe, Check here](https://www.virustotal.com/gui/url/006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33/detection/u-006addcfc66aceea65932ed451de3de357dadf3d890d26c0f5011b8a1be1cf33-1790600196
 )  
 Use [CTRL] + Click to open in a new window! 
